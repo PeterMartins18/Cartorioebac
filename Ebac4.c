@@ -15,21 +15,23 @@ void clearScreen(void)
     system(CLEAR_SCREEN);
 }
 
-int registro(void)
+int registro(void) //Função responsável por cadastrar os usuários no sistema
 {
+    //início da criação das variáveis/string
     char arquivo[40];
     char cpf[40];
     char nome[40];
     char sobrenome[40];
     char cargo[40];
-    
-    printf(" Digite o CPF a ser cadastrado: ");
-    scanf("%s", cpf);
+    //Final da criação das variáveis/string
+
+    printf(" Digite o CPF a ser cadastrado: ");//Coletando informações do usuário
+    scanf("%s", cpf);//%s refere-se às strings
     
     strcpy(arquivo, cpf);//Responsável por copiar os valores das strings
            
     FILE *file; //Cria o arquivo
-    file = fopen(arquivo, "w"); // Cria o arquivo
+    file = fopen(arquivo, "w"); // Cria o arquivo e o "w"
     fprintf(file,"%s", cpf); // salvo o valor da variável
     fclose(file); // fecha o arquivo
            
@@ -100,11 +102,27 @@ int consulta(void)
 
 int deletar(void)
 {
-    clearScreen();
-    printf("Você escolheu deletar os nomes!\n");
+    char cpf[40];
+    
+    printf("Digitar o cpf a ser deletado: ");
+    scanf("%s",cpf);
+    
+    remove(cpf);
+    
+    FILE *file;
+    file = fopen(cpf,"r");
+    
+    if(file == NULL)
+    {
+        printf("O usuário não se encontra na sistema!\n");
+        system("read");
+        
+    }
+    
     return 0;
 }
 int main(void)
+    
 {
     putenv("TERM=xterm-256color");
     
@@ -120,20 +138,21 @@ int main(void)
         
         printf("### Cartório da EBAC ###\n\n"); //Início do menu
         printf("Escolha desejada do menu:\n\n");
-        printf("\t1 Registrar nomes\n");
-        printf("\t2 Consultar nomes\n");
-        printf("\t3 Deletar nomes\n\n");
+        printf("\t1 - Registrar nomes\n\n");
+        printf("\t2 - Consultar nomes\n\n");
+        printf("\t3 - Deletar nomes\n\n");
+        printf("\t4 - Sair do sistema\n\n");
         printf("Opção: ");//fim do menu
         
         scanf("%d", &opcao); //Armazenando a escolha do usuário
         
-        clearScreen();
+        clearScreen();//Responsável por limpar a tela
         
         
-        switch(opcao)
+        switch(opcao)//Início da seleção do menu
         {
             case 1:
-                registro();
+                registro();//Chamada de funções
                 system("read");
                 break;
                 
@@ -147,13 +166,17 @@ int main(void)
                 deletar();
                 system("read");
                 break;
+            case 4:
+                printf("Obrigado por utilizar o sistema!\n");
+                return 0;
+                break;
                 
-            
             default:
                 printf("Essa opção não está disponível!");
                 system("read");
+                break;
                 
-        }
+        }//Fim da seleção1
         
         
        
